@@ -1,0 +1,11 @@
+ol {
+    background-color: grey;
+    border: 2px solid black;
+    padding: 30px;
+    margin: 10px;
+}
+
+li {
+    border: 2px solid red;
+    margin: 5px;
+}
