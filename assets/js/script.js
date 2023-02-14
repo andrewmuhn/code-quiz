@@ -8,16 +8,26 @@
 //  -begins timer countdown from 75seconds
 //  --if timer reaches zero before user finishes quiz then end quiz
 //  -title and description are replaced by multiple choice question
+//  --when an aswer is selected it is localy stored
 //  --when an answer is selected the next question and answers are displayed
 //  --when an answer is selected 'Wrong!' or 'Right!' is displayed underneath
 //  --when that last question is answered the quiz ends and asks for initials to be entered to tie to highscore
+//  -when view high score is clicked
+//  --then stored
 
+//variables
+let timeLeft;
+let quizFinish = false;
+
+
+//object containing questions and answers
 let quizObject = {
   questions: ['question 1', 'question 2', 'question 3', 'question 4'],
-  q1Answers: ['q1 a1', 'q1 a2', 'q1 a3', 'q1 a4'],
-  q2Answers: ['q2 a1', 'q2 a2', 'q2 a3', 'q2 a4'],
-  q3Answers: ['q3 a1', 'q3 a2', 'q3 a3', 'q3 a4'],
-  q4Answers: ['q4 a1', 'q4 a2', 'q4 a3', 'q4 a4'],
+  qAnswer1: ['q1 a1', 'q2 a1', 'q3 a1', 'q4 a1'],
+  qAnswer2: ['q1 a2', 'q2 a2', 'q3 a2', 'q4 a2'],
+  qAnswer3: ['q1 a3', 'q2 a3', 'q3 a3', 'q4 a3'],
+  qAnswer4: ['q1 a4', 'q2 a4', 'q3 a4', 'q4 a4'],
+  correctAnswers: [4, 2, 3, 4]
 };
 
 
@@ -47,7 +57,6 @@ let quiz = () => {
   state = parseInt(state);
   console.log(state);
   if (state === 0) {
-    quizContainer.dataset.state++
     console.log(quizContainer.getAttribute('data-state'));
 
     //changes title to first question
@@ -62,11 +71,10 @@ let quiz = () => {
 
 
     //Add answer text to answer elements
-    answer1.textContent = quizObject.q1Answers[0];
-    answer2.textContent = quizObject.q1Answers[1];
-    answer3.textContent = quizObject.q1Answers[2];
-    answer4.textContent = quizObject.q1Answers[3];
-
+    answer1.textContent = quizObject.qAnswer1[0];
+    answer2.textContent = quizObject.qAnswer2[0];
+    answer3.textContent = quizObject.qAnswer3[0];
+    answer4.textContent = quizObject.qAnswer4[0];
   }
 
   //function listens for clicks on li inside of the answers ol and indexes the state by one
@@ -74,28 +82,53 @@ let quiz = () => {
     let element = event.target;
 
     if (element.matches('li')) {
-      quizContainer.dataset.state++
-      console.log(quizContainer.getAttribute('data-state'));
+      if (quizContainer.getAttribute('data-state') < quizObject.questions.length - 1) {
+        quizContainer.dataset.state++
+        console.log(quizContainer.getAttribute('data-state'));
+        nextQuestion(quizContainer.getAttribute('data-state'));
+      } else {
+        enterResults();
+      }
     }
   })
 
+  let nextQuestion = (index) => {
+    question.textContent = quizObject.questions[index];
+
+    answer1.textContent = quizObject.qAnswer1[index];
+    answer2.textContent = quizObject.qAnswer2[index];
+    answer3.textContent = quizObject.qAnswer3[index];
+    answer4.textContent = quizObject.qAnswer4[index];
+  }
 
 
   let timer = () => {
-    let timeLeft = 75;
-
+    timeLeft = 75;
+    console.log(quizFinish);
     let timeInterval = setInterval(function () {
-      if (timeLeft > 1) {
-        timerEL.textContent = `Time: ${timeLeft}`
-        timeLeft--;
-      } else {
+      timerEL.textContent = `Time: ${timeLeft}`
+      timeLeft--;
+      if (timeLeft >= 0) {
+        if (timeLeft > 0 && quizFinish) {
+          console.log('test');
+          clearInterval(timeInterval);
+        }
+      } if (timeLeft === 0) {
         timerEL.textContent = `Time:  `
         clearInterval(timeInterval);
-        //TODO: call function that ends quiz
+        //calls function that ends quiz
+        enterResults();
       }
     }, 1000);
   }
   timer();
+}
+let enterResults = () => {
+  quizFinish = true;
+  question.textContent = 'All done!'
+  quizContainer.removeChild(answersEl);
+  console.log(quizFinish);
+  return quizFinish;
 }
 
 start.addEventListener('click', quiz);
