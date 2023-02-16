@@ -8,12 +8,12 @@
 //  -begins timer countdown from 75seconds
 //  --if timer reaches zero before user finishes quiz then end quiz
 //  -title and description are replaced by multiple choice question
-//  --when an answer is selected it is localy stored
+//  --when an answer is selected it is compared to answer key
 //  --when an answer is selected the next question and answers are displayed
 //  --when an answer is selected 'Wrong!' or 'Right!' is displayed underneath
 //  --when that last question is answered the quiz ends and asks for initials to be entered to tie to highscore
 //  -when view high score is clicked
-//  --then stored
+//  --then stored 
 
 //object containing questions and answers
 let quizObject = {
@@ -258,12 +258,12 @@ const viewHighScores = () => {
   for (let i = 0; i < latestScores.length; i++) {
 
     text +=
-      `Initials: ${latestScores[i].initials}, 
-    Score: ${latestScores[i].score}%, 
-    Time: ${latestScores[i].time}`;
+      `Initials: ${latestScores[i].initials},  
+    Score: ${latestScores[i].score}%,  
+    Time: ${latestScores[i].time}<br>`;
 
   }
-  scoresList.textContent = text;
+  scoresList.innerHTML = text;
 }
 
 const resetQuiz = () => {
@@ -276,7 +276,9 @@ const resetQuiz = () => {
   description.setAttribute('style', 'display: block;');
 
   quizContainer.setAttribute('data-state', '0');
-
+  quizFinish = false;
+  questionsCorrect = 0;
+  questionsWrong = 0;
 
 }
 
