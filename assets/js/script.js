@@ -68,6 +68,7 @@ const label = document.createElement('label');
 //highscores elements
 const scoresList = document.createElement('p');
 const goBack = document.createElement('input');
+const clearScores = document.createElement('input');
 
 //add id attributes to li elements
 answer1.id = '1';
@@ -80,6 +81,8 @@ initials.setAttribute('type', 'text');
 submit.setAttribute('type', 'submit');
 goBack.setAttribute('type', 'button');
 goBack.setAttribute('value', 'Go Back');
+clearScores.setAttribute('type', 'button');
+clearScores.setAttribute('value', 'Clear Scores');
 
 //starts initial program
 const quiz = () => {
@@ -224,8 +227,6 @@ const handleScores = () => {
 
   console.log(highScores);
   existingScores = JSON.parse(localStorage.getItem('scores'));
-
-  console.log(typeof existingScores);
   if (existingScores === null) {
     localStorage.setItem('scores', JSON.stringify(highScores));
 
@@ -252,6 +253,7 @@ const viewHighScores = () => {
 
   quizContainer.appendChild(scoresList);
   quizContainer.appendChild(goBack);
+  quizContainer.appendChild(clearScores);
 
 
   let text = '';
@@ -271,6 +273,8 @@ const resetQuiz = () => {
 
   quizContainer.removeChild(scoresList);
   quizContainer.removeChild(goBack);
+  quizContainer.removeChild(clearScores);
+
 
   start.setAttribute('style', 'display: block;');
   description.setAttribute('style', 'display: block;');
@@ -287,3 +291,9 @@ start.addEventListener('click', quiz);
 resultsForm.addEventListener('click', handleScores);
 
 goBack.addEventListener('click', resetQuiz);
+
+clearScores.addEventListener('click', () => {
+  scoresList.innerHTML = '';
+  localStorage.removeItem('scores');
+  highScores = [];
+})
