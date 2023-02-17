@@ -25,9 +25,6 @@ let quizObject = {
   correctAnswers: [4, 2, 3, 4]
 };
 
-
-
-
 //variables
 let timeLeft;
 let quizFinish = false;
@@ -46,7 +43,7 @@ if (!existingScores) {
 
 // get elements from html doc
 let timerEL = document.querySelector('#countdown');
-let scores = document.querySelector('#scores');
+let viewScores = document.querySelector('#scores');
 let quizContainer = document.querySelector('#container');
 let question = document.querySelector('#questions');
 let description = document.querySelector('#description');
@@ -87,8 +84,9 @@ clearScores.setAttribute('value', 'Clear Scores');
 //starts initial program
 const quiz = () => {
   //Don't display description and start button once quiz has begun
-  start.setAttribute('style', 'display: none;');
-  description.setAttribute('style', 'display: none;');
+  emptyContainer(quizContainer);
+  // start.setAttribute('style', 'display: none;');
+  // description.setAttribute('style', 'display: none;');
 
   let state = quizContainer.getAttribute('data-state');
   state = parseInt(state);
@@ -196,9 +194,7 @@ const enterResults = () => {
   quizFinish = true;
   finalScore = (questionsCorrect / numOfQuestions) * 100;
   question.textContent = 'All done!'
-  quizContainer.removeChild(answersEl);
-  quizContainer.removeChild(response);
-
+  emptyContainer(quizContainer);
 
   quizContainer.appendChild(resultsForm);
   resultsForm.appendChild(label);
@@ -208,8 +204,9 @@ const enterResults = () => {
   label.textContent = 'Enter Initials. Must be between 1 and 3 characters';
 }
 
-const handleScores = () => {
-
+//pull existing scores from local storage appends new scores and then pushes the completed scores to local storage
+const handleScores = (event) => {
+  event.preventDefault();
   let initialText = initials.value.trim();
   initialText = initialText.toUpperCase();
 
@@ -218,37 +215,39 @@ const handleScores = () => {
     score: finalScore,
     time: timeLeft,
   }
-  if (initialText === '' || initialText.length > 3) {
-    return;
-  }
+  // if (initialText === '' || initialText.length > 3) {
+  //   return;
+  // }
 
-  highScores.push(player);
-  initials.value = "";
-
-  console.log(highScores);
-  existingScores = JSON.parse(localStorage.getItem('scores'));
-  if (existingScores === null) {
-    localStorage.setItem('scores', JSON.stringify(highScores));
-
-  } else {
-    highScores.concat(existingScores);
+  if (initialText.length > 0 && initialText.length < 4) {
+    highScores.push(player);
+    initials.value = "";
 
     console.log(highScores);
+    existingScores = JSON.parse(localStorage.getItem('scores'));
+    if (existingScores === null) {
+      console.log('test if' + existingScores)
 
-    localStorage.setItem('scores', JSON.stringify(highScores));
+      localStorage.setItem('scores', JSON.stringify(highScores));
+    } else {
+      console.log('test else');
+      console.log(existingScores);
+      // // highScores.concat(existingScores);
+      // existingScores.concat(highScores);
+      let newHighScores = highScores.concat(existingScores);
+      console.log(newHighScores);
+
+      localStorage.setItem('scores', JSON.stringify(newHighScores));
+    }
+
+    viewHighScores();
   }
-
-  viewHighScores();
 }
 
 //displays high scores
 const viewHighScores = () => {
   question.textContent = "HighScores!"
-  quizContainer.removeChild(resultsForm);
-  resultsForm.removeChild(label);
-  resultsForm.removeChild(initials);
-  resultsForm.removeChild(submit);
-
+  emptyContainer(quizContainer);
   latestScores = JSON.parse(localStorage.getItem('scores'));
 
   quizContainer.appendChild(scoresList);
@@ -268,14 +267,16 @@ const viewHighScores = () => {
   scoresList.innerHTML = text;
 }
 
+//reverts quiz back to opening screen, does not clear scores from local storage
 const resetQuiz = () => {
   question.textContent = "JavaScript Code Quiz"
 
-  quizContainer.removeChild(scoresList);
-  quizContainer.removeChild(goBack);
-  quizContainer.removeChild(clearScores);
+  emptyContainer(quizContainer);
 
 
+
+  quizContainer.appendChild(description);
+  quizContainer.appendChild(start);
   start.setAttribute('style', 'display: block;');
   description.setAttribute('style', 'display: block;');
 
@@ -286,12 +287,19 @@ const resetQuiz = () => {
 
 }
 
+//function that gets called to repeatedly empty the quizcontainer
+const emptyContainer = (container) => {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+}
+
 start.addEventListener('click', quiz);
-
 resultsForm.addEventListener('click', handleScores);
-
 goBack.addEventListener('click', resetQuiz);
+viewScores.addEventListener('click', viewHighScores);
 
+//clears scores from local storage and the viewHighScores page
 clearScores.addEventListener('click', () => {
   scoresList.innerHTML = '';
   localStorage.removeItem('scores');
