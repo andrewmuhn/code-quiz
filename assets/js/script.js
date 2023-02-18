@@ -88,6 +88,7 @@ clearScores.setAttribute('value', 'Clear Scores');
 
 //starts initial program
 const quiz = () => {
+  console.log(existingScores);
   //Don't display description and start button once quiz has begun
   emptyContainer(quizContainer);
   // start.setAttribute('style', 'display: none;');
@@ -165,20 +166,16 @@ answersEl.addEventListener('click', (event) => {
 //compares the users selected answer against the answer key stored in quizObject.
 const checkAnswer = (userSelection) => {
   userSelection = parseInt(userSelection);
-  console.log(typeof userSelection);
-  console.log(typeof quizObject.correctAnswers[quizContainer.getAttribute('data-state')])
 
   //testing if the users selected answer matches the answer key
   if (userSelection === quizObject.correctAnswers[quizContainer.getAttribute('data-state')]) {
     questionsCorrect++;
-    console.log(`correct ${questionsCorrect}`);
     quizContainer.appendChild(response);
     response.textContent = 'Correct!'
 
 
   } else {
     questionsWrong++;
-    console.log(`wrong ${questionsWrong}`);
     quizContainer.appendChild(response);
     response.textContent = 'Wrong!'
   }
@@ -223,17 +220,21 @@ const handleScores = (event) => {
 
   if (initialText.length > 0 && initialText.length < 4) {
     highScores.push(player);
+
+    //clears input field for next entry
     initials.value = "";
 
     console.log(highScores);
     existingScores = JSON.parse(localStorage.getItem('scores'));
+    console.log(existingScores);
     if (existingScores === null) {
       localStorage.setItem('scores', JSON.stringify(highScores));
     } else {
-      let newHighScores = highScores.concat(existingScores);
+      let newHighScores = existingScores.concat(highScores);
       localStorage.setItem('scores', JSON.stringify(newHighScores));
+      console.log(newHighScores);
     }
-
+    highScores = [];
     viewHighScores();
   }
 }
@@ -242,7 +243,7 @@ const handleScores = (event) => {
 const viewHighScores = () => {
   question.textContent = "HighScores!"
   emptyContainer(quizContainer);
-  latestScores = JSON.parse(localStorage.getItem('scores'));
+  existingScores = JSON.parse(localStorage.getItem('scores'));
 
   quizContainer.appendChild(scoresList);
   quizContainer.appendChild(goBack);
@@ -250,12 +251,12 @@ const viewHighScores = () => {
 
 
   let text = '';
-  for (let i = 0; i < latestScores.length; i++) {
+  for (let i = 0; i < existingScores.length; i++) {
 
     text +=
-      `Initials: ${latestScores[i].initials},  
-    Score: ${latestScores[i].score}%,  
-    Time: ${latestScores[i].time}<br>`;
+      `Initials: ${existingScores[i].initials},  
+    Score: ${existingScores[i].score}%,  
+    Time: ${existingScores[i].time}<br>`;
 
   }
   scoresList.innerHTML = text;
