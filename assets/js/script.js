@@ -15,6 +15,8 @@
 //  -when view high score is clicked
 //  --then stored 
 
+
+
 //object containing questions and answers
 let quizObject = {
   questions: ['question 1', 'question 2', 'question 3', 'question 4'],
@@ -36,15 +38,15 @@ let finalScore;
 
 let highScores = [];
 
-if (!existingScores) {
-  existingScores = localStorage.setItem('scores', JSON.stringify(''));
-}
+// if (!existingScores) {
+//   existingScores = localStorage.setItem('scores', JSON.stringify(''));
+// }
 
 
 // get elements from html doc
 let timerEL = document.querySelector('#countdown');
 let viewScores = document.querySelector('#scores');
-let quizContainer = document.querySelector('#container');
+let quizContainer = document.querySelector('#quiz-container');
 let question = document.querySelector('#questions');
 let description = document.querySelector('#description');
 let start = document.querySelector('#start');
@@ -61,7 +63,7 @@ const response = document.createElement('p');
 const resultsForm = document.createElement('form');
 const initials = document.createElement('input');
 const submit = document.createElement('input');
-const label = document.createElement('label');
+const label = document.createElement('p');
 //highscores elements
 const scoresList = document.createElement('p');
 const goBack = document.createElement('input');
@@ -72,6 +74,9 @@ answer1.id = '1';
 answer2.id = '2';
 answer3.id = '3';
 answer4.id = '4';
+
+//add classes for specifc styling
+response.setAttribute('class', 'response');
 
 //add input attributs to input elements
 initials.setAttribute('type', 'text');
@@ -215,9 +220,6 @@ const handleScores = (event) => {
     score: finalScore,
     time: timeLeft,
   }
-  // if (initialText === '' || initialText.length > 3) {
-  //   return;
-  // }
 
   if (initialText.length > 0 && initialText.length < 4) {
     highScores.push(player);
@@ -226,17 +228,9 @@ const handleScores = (event) => {
     console.log(highScores);
     existingScores = JSON.parse(localStorage.getItem('scores'));
     if (existingScores === null) {
-      console.log('test if' + existingScores)
-
       localStorage.setItem('scores', JSON.stringify(highScores));
     } else {
-      console.log('test else');
-      console.log(existingScores);
-      // // highScores.concat(existingScores);
-      // existingScores.concat(highScores);
       let newHighScores = highScores.concat(existingScores);
-      console.log(newHighScores);
-
       localStorage.setItem('scores', JSON.stringify(newHighScores));
     }
 

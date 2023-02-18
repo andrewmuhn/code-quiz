@@ -1,11 +1,113 @@
+:root {
+    --plum: #700353;
+    --corn: #f7c247;
+    /*ffd447*/
+    --sky: #058ed9;
+    --navy: #320d6d;
+    --brown: #4c1c00;
+    --tan: #67371b;
+}
+
+* {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.container {
+    position: relative;
+    margin: auto;
+    background-color: var(--corn);
+    border: #000 solid 2px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    width: 50%;
+}
+
+.container> :first-child {
+    font-weight: bold;
+    color: var(--brown);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 5px 20px;
+}
+
+#scores {
+    font-style: italic;
+}
+
+#scores:hover {
+    cursor: pointer;
+}
+
+.container h1 {
+    position: relative;
+    margin: 10px auto 0;
+
+}
+
+#quiz-container {
+    width: 100%;
+    background-color: var(--corn);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
 ol {
-    background-color: grey;
-    border: 2px solid black;
-    padding: 30px;
-    margin: 10px;
+    list-style-type: upper-latin;
+    list-style-position: inside;
+    padding: 30px 10px;
+    margin: 10px 10px 0px;
+    width: 90%;
+
 }
 
 li {
-    border: 2px solid red;
+    background-color: var(--brown);
+    border: 2px solid #000;
+    border-radius: 17px;
+    padding: 15px 20px;
+    color: #fff;
     margin: 5px;
+}
+
+.response {
+
+    display: flex;
+    align-self: flex-start;
+    margin: 0 30px 0 30px;
+    padding: 5px;
+    border-top: 2px solid #000;
+    width: 90%;
+}
+
+li:hover {
+    background-color: var(--tan);
+    cursor: pointer;
+}
+
+input {
+    position: relative;
+    margin: 2px auto;
+    width: calc(50% - 1rem);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+input[type="button"],
+input[type="submit"] {
+    background-color: var(--plum);
+    color: #fff;
+
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+input[type="text"]:focus {
+    outline: none;
 }
