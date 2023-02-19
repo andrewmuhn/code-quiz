@@ -21,7 +21,7 @@
     display: flex;
     flex-direction: column;
     height: 500px;
-    width: 50%;
+    width: 60%;
 }
 
 .container> :first-child {
@@ -41,9 +41,10 @@
     cursor: pointer;
 }
 
-.container h1 {
+#questions {
     position: relative;
     margin: 10px auto 0;
+    padding: 0 30px;
 
 }
 
