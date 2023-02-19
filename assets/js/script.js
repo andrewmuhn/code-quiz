@@ -19,12 +19,36 @@
 
 //object containing questions and answers
 let quizObject = {
-  questions: ['question 1', 'question 2', 'question 3', 'question 4'],
-  qAnswer1: ['q1 a1', 'q2 a1', 'q3 a1', 'q4 a1'],
-  qAnswer2: ['q1 a2', 'q2 a2 Correct', 'q3 a2', 'q4 a2'],
-  qAnswer3: ['q1 a3', 'q2 a3', 'q3 a3 Correct', 'q4 a3'],
-  qAnswer4: ['q1 a4 Correct', 'q2 a4', 'q3 a4', 'q4 a4 Correct'],
-  correctAnswers: [4, 2, 3, 4]
+  questions:
+    ['Common used data types DO NOT include:',
+      'Arrays in JavaScript can be used to store _______.',
+      'Which of the following is used to compare a statement meets one OR the other conditional?',
+      'Which of the following use arrow function notation',
+      'How do you use JavaScript in an html file?'],
+  qAnswer1:
+    ['Strings', 'Primitive data types',
+      '||',
+      'name = {function statements}',
+      'Enclose js in the <script></script> tag in the section it is being used'],
+  qAnswer2:
+    ['Booleans',
+      'Objects',
+      '===',
+      'const name = function (parameters) = {function statements}',
+      'Link to the js file or directly include js at the bottom of the body enclosed by the <script></script> tag'],
+  qAnswer3:
+    ['Alerts',
+      'Other Arrays',
+      '&&',
+      'function name(parameters) = {function statements}',
+      'Link to the js file in the head enclosed by <script></script> tag'],
+  qAnswer4:
+    ['Numbers',
+      'All of the above',
+      'OR',
+      '(parameters) => {function statements}',
+      'Nothing, js files just need to be placed in your assets folder in your file tree and your index file automatically links to them'],
+  correctAnswers: [3, 4, 1, 4, 2]
 };
 
 //variables
