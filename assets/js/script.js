@@ -38,11 +38,6 @@ let finalScore;
 
 let highScores = [];
 
-// if (!existingScores) {
-//   existingScores = localStorage.setItem('scores', JSON.stringify(''));
-// }
-
-
 // get elements from html doc
 let timerEL = document.querySelector('#countdown');
 let viewScores = document.querySelector('#scores');
@@ -88,7 +83,6 @@ clearScores.setAttribute('value', 'Clear Scores');
 
 //starts initial program
 const quiz = () => {
-  console.log(existingScores);
   //Don't display description and start button once quiz has begun
   emptyContainer(quizContainer);
   // start.setAttribute('style', 'display: none;');
@@ -219,22 +213,24 @@ const handleScores = (event) => {
   }
 
   if (initialText.length > 0 && initialText.length < 4) {
+
+    //adds users score to handle scores variable
     highScores.push(player);
 
     //clears input field for next entry
     initials.value = "";
 
-    console.log(highScores);
     existingScores = JSON.parse(localStorage.getItem('scores'));
-    console.log(existingScores);
     if (existingScores === null) {
       localStorage.setItem('scores', JSON.stringify(highScores));
     } else {
-      let newHighScores = existingScores.concat(highScores);
+      let newHighScores = highScores.concat(existingScores);
       localStorage.setItem('scores', JSON.stringify(newHighScores));
-      console.log(newHighScores);
     }
+
+    //clears highScores variable so it's ready to recieve a new score next playthrough
     highScores = [];
+
     viewHighScores();
   }
 }
