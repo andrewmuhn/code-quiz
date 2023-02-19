@@ -194,6 +194,7 @@ const checkAnswer = (userSelection) => {
 
   } else {
     questionsWrong++;
+    timeLeft = timeLeft - 10;
     quizContainer.appendChild(response);
     response.textContent = 'Wrong!'
   }

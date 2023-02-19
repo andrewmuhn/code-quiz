@@ -20,7 +20,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    height: 500px;
+    height: 550px;
     width: 60%;
 }
 
@@ -54,6 +54,10 @@
     align-items: center;
     display: flex;
     flex-direction: column;
+}
+
+#description {
+    margin: 30px 10px 50px;
 }
 
 ol {
